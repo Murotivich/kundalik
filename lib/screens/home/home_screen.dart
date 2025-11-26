@@ -127,12 +127,17 @@ class HomeContent extends StatelessWidget {
             onRefresh: () async {
               diaryProvider.loadData();
             },
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(12),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
     // Приветствие
                 Text(
                 'Здравствуй, ${authProvider.currentUser?.name ?? "Ученик"}!',
@@ -243,8 +248,11 @@ class HomeContent extends StatelessWidget {
                     return NoteCard(note: incompleteNotes[index]);
                   },
                 ),
-                    ],
-                ),
+                          ],
+                      ),
+                    ),
+                  );
+              },
             ),
         ),
     );

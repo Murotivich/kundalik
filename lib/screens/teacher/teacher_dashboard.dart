@@ -416,38 +416,46 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
         children: [
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Row(
-              children: [
-                // View selector
-                ToggleButtons(
-                  isSelected: [ _viewMode == 'students', _viewMode == 'teachers' ],
-                  onPressed: (i) {
-                    setState(() {
-                      _viewMode = i == 0 ? 'students' : 'teachers';
-                      if (_viewMode == 'students') {
-                        _loadStudents();
-                      } else {
-                        _loadTeachers();
-                      }
-                    });
-                  },
-                  children: const [ Padding(padding: EdgeInsets.symmetric(horizontal:12), child: Text('Ученики')), Padding(padding: EdgeInsets.symmetric(horizontal:12), child: Text('Учителя')) ],
-                ),
-                const SizedBox(width: 12),
-                const Text('Группа: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(width: 8),
-                DropdownButton<String>(
-                  value: _selectedGroup,
-                  items: _groups.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
-                  onChanged: (v) {
-                    if (v == null) return;
-                    setState(() => _selectedGroup = v);
-                    _loadStudents();
-                  },
-                ),
-                const Spacer(),
-                Text(_viewMode == 'students' ? 'Ученики: ${_students.length}' : 'Учителя: ${_teachers.length}'),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ToggleButtons(
+                    isSelected: [_viewMode == 'students', _viewMode == 'teachers'],
+                    onPressed: (i) {
+                      setState(() {
+                        _viewMode = i == 0 ? 'students' : 'teachers';
+                        if (_viewMode == 'students') {
+                          _loadStudents();
+                        } else {
+                          _loadTeachers();
+                        }
+                      });
+                    },
+                    children: const [
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: Text('Ученики')),
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: Text('Учителя'))
+                    ],
+                  ),
+                  const SizedBox(width: 12),
+                  const Text('Группа:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(width: 8),
+                  DropdownButton<String>(
+                    value: _selectedGroup,
+                    items: _groups.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+                    onChanged: (v) {
+                      if (v == null) return;
+                      setState(() => _selectedGroup = v);
+                      _loadStudents();
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    _viewMode == 'students' ? 'Ученики: ${_students.length}' : 'Учителя: ${_teachers.length}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
             ),
           ),
           const Divider(height: 1),
