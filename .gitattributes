@@ -1,0 +1,13 @@
+# Gitattributes: normalize line endings and treat common text files as LF
+* text=auto
+*.dart text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+pubspec.lock text eol=lf
+README.md text eol=lf
+*.md text eol=lf
+*.gradle text eol=lf
+*.kt text eol=lf
+*.java text eol=lf
+*.xml text eol=lf
